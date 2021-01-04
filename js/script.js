@@ -1,24 +1,35 @@
 $(document).ready(function(){
     //Слайдер about
     var swiper1 = new Swiper('.carousel', {
-        navigation: {
+        navigation:{
             prevEl: '.swiper-button-prev',
             nextEl: '.swiper-button-next'
         },
-        autoplay: {
+        autoplay:{
             delay: 4000
         },
-        slidesPerView: 4
+        slidesPerView: 1,
+        breakpoints:{
+            1148:{
+                slidesPerView: 4
+            },
+            992:{
+                slidesPerView: 3
+            },
+            576:{
+                slidesPerView: 2
+            }
+        }
     });
 
     //Слайдер clients
     var swiper2 = new Swiper('.clients__swiper', {
         slidesPerView: 1,
-        pagination: {
+        pagination:{
             el: '.swiper-pagination',
             type: 'bullets',
             clickable: 1
-          }
+        }
     });
 
     //"Умные" alt у таб-карточек.
@@ -27,11 +38,13 @@ $(document).ready(function(){
     });
 
     //Анимации карточек в карусели
+    if (!('ontouchstart' in window)) {
+        $('.carousel__photo').on('mouseenter', function(){
+            $('.carousel__clicked').hide().eq($(this).index('.carousel__photo')).fadeIn(200);
+        }); 
+    }
     $('.carousel__clicked').on('mouseleave', function(){
         $('.carousel__clicked').fadeOut(200);
-    });
-    $('.carousel__photo').on('mouseenter', function(){
-        $('.carousel__clicked').hide().eq($(this).index('.carousel__photo')).fadeIn(200);
     });
     $('.carousel__clicked').on('mouseenter', function(){
         swiper1.autoplay.stop();
